@@ -17,6 +17,8 @@ from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, Date, DateTime
 
+from sqlalchemy import Unicode
+
 class Role(Base):
     __tablename__ = "Roles"
 
@@ -49,7 +51,7 @@ class User(Base):
 
     UserID = Column(Integer, primary_key=True, index=True)
     ClinicID = Column(Integer, ForeignKey("Clinics.ClinicID"))
-    FullName = Column(String(100), nullable=False)
+    FullName = Column(Unicode(100), nullable=False)
     PINHash = Column(String(255), nullable=False)
     RoleID = Column(Integer, ForeignKey("Roles.RoleID"))
     IsActive = Column(Boolean, default=True)
@@ -68,7 +70,7 @@ class Patient(Base):
         ForeignKey("Clinics.ClinicID")
     )
 
-    FullName = Column(String)
+    FullName = Column(Unicode(100))
 
     Phone = Column(String)
 
@@ -78,7 +80,10 @@ class Patient(Base):
 
     Notes = Column(String)
 
-    CreatedAt = Column(DateTime)
+    CreatedAt = Column(
+    DateTime,
+    default=datetime.utcnow
+    )
 
     clinic = relationship(
         "Clinic",

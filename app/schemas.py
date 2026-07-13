@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from pydantic import BaseModel
 from datetime import date, datetime
+from typing import List, Optional
 
 
 
@@ -41,7 +42,7 @@ class PatientResponse(BaseModel):
     Gender: str
     DateOfBirth: date
     Notes: str | None = None
-    CreatedAt: datetime
+    CreatedAt: datetime | None = None
 
     class Config:
         from_attributes = True

@@ -11,6 +11,7 @@ def create_patient(
     data: PatientCreate
 ):
 
+
     patient = Patient(
         ClinicID=clinic_id,
         FullName=data.FullName,
@@ -30,3 +31,14 @@ def create_patient(
     print(type(data.FullName))
 
     return patient
+
+
+def get_patients_by_clinic(
+    db: Session,
+    clinic_id: int
+):
+    return (
+        db.query(Patient)
+        .filter(Patient.ClinicID == clinic_id)
+        .all()
+    )
