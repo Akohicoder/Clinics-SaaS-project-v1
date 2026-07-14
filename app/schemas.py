@@ -47,3 +47,33 @@ class PatientResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class AppointmentCreate(BaseModel):
+    PatientID: int
+    DoctorID: int
+    AppointmentDate: datetime
+    Notes: str | None = None
+
+class AppointmentResponse(BaseModel):
+    AppointmentID: int
+    ClinicID: int
+    PatientID: int
+    DoctorID: int
+    AppointmentDate: datetime
+    Status: str
+    ReminderSent: bool
+    Confirmed: bool
+    Notes: str | None = None
+
+    class Config:
+        from_attributes = True
+
+class AppointmentListResponse(BaseModel):
+    AppointmentID: int
+    PatientName: str
+    DoctorName: str
+    AppointmentDate: datetime
+    Status: str
+
+    class Config:
+        from_attributes = True
+
