@@ -77,3 +77,22 @@ class AppointmentListResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class AppointmentUpdate(BaseModel):
+    DoctorID: int
+    AppointmentDate: datetime
+    Status: str
+    Notes: str | None = None
+
+class DashboardResponse(BaseModel):
+    total_patients: int
+    today_appointments: int
+    confirmed_appointments: int
+    pending_appointments: int
+    cancelled_appointments: int
+
+class DashboardResponse(BaseModel):
+    total_patients: int
+    today_appointments: int
+    confirmed_appointments: int
+    pending_appointments: int
+    cancelled_appointments: int

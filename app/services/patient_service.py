@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 
 from app.models import Patient
 from app.schemas import PatientCreate
@@ -33,12 +34,42 @@ def create_patient(
     return patient
 
 
+from sqlalchemy import or_
+
 def get_patients_by_clinic(
     db: Session,
-    clinic_id: int
+    clinic_id: int,
+    search: str | None = None,
+    page: int = 1,
+    size: int = 10,
+    sort: str = "PatientID"
 ):
-    return (
+
+    query = (
         db.query(Patient)
         .filter(Patient.ClinicID == clinic_id)
-        .all()
     )
+
+    if search:
+        query = query.filter(
+            or_(
+                Patient.FullName.contains(search),
+                Patient.Phone.contains(search)
+            )
+        )
+
+    if sort == "name":
+        query = query.order_by(Patient.FullName)
+
+    elif sort == "date":
+        query = query.order_by(Patient.CreatedAt.desc())
+
+    else:
+        query = query.order_by(Patient.PatientID)
+
+    return (
+        query
+        .offset((page - 1) * size)
+        .limit(size)
+        .all()
+)

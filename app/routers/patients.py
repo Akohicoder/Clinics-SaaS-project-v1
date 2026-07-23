@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -33,13 +33,20 @@ def add_patient(
 
 @router.get("/", response_model=list[PatientResponse])
 def get_patients(
+    search: str |None = Query(default=None),
+    page: int = Query(default=1, ge=1),
+    size: int = Query(default=10, ge=1, le=100),
+    sort: str = Query(default="id"),
     db: Session = Depends(get_db),
     payload=Depends(get_current_clinic)
 ):
-
     clinic_id = payload["clinic_id"]
 
     return get_patients_by_clinic(
         db,
-        clinic_id
+        clinic_id,
+        search,
+        page,
+        size,
+        sort
     )

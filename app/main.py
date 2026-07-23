@@ -6,6 +6,7 @@ from app.routers import auth
 from app.routers import users
 from app.routers import patients
 from app.routers import appointments
+from app.routers import dashboard
 
 Base.metadata.create_all(bind=engine)
 
@@ -18,6 +19,8 @@ app.include_router(users.router)
 app.include_router(patients.router)
 
 app.include_router(appointments.router)
+
+app.include_router(dashboard.router)
 
 
 @app.get("/")
